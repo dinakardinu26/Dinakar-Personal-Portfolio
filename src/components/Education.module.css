@@ -1,0 +1,84 @@
+.eduSection {
+  padding: 6rem 0;
+  background-color: var(--background);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+.column {
+  background-color: var(--card-bg);
+  padding: 3rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.header h2 {
+  font-size: 2rem;
+  color: var(--foreground);
+}
+
+.icon {
+  color: var(--accent);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.eduItem h3 {
+  font-size: 1.3rem;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.eduItem p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.certList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.certItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.1rem;
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.bullet {
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}

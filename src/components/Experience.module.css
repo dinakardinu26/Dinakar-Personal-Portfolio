@@ -1,0 +1,139 @@
+.experienceSection {
+  padding: 6rem 0;
+  background-color: var(--background);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.heading {
+  font-size: 2.5rem;
+  color: var(--foreground);
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.heading::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 50px;
+  height: 4px;
+  background-color: var(--accent);
+  border-radius: 2px;
+}
+
+.subheading {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 30px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: var(--border-color);
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 3rem;
+  padding-left: 80px;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelineIcon {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 6px var(--background);
+  z-index: 10;
+}
+
+.timelineContent {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease;
+}
+
+.timelineContent:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.period {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(0, 118, 255, 0.1);
+  color: var(--accent);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.role {
+  font-size: 1.5rem;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+}
+
+.company {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.responsibilities {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.responsibilities li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.responsibilities li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}

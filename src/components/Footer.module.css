@@ -1,0 +1,54 @@
+.footer {
+  background-color: var(--primary);
+  color: var(--secondary);
+  padding: 4rem 0 0;
+  margin-top: 4rem;
+}
+
+.footerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.brand h2 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.brand p {
+  color: var(--text-muted);
+  max-width: 300px;
+}
+
+.links h3, .socials h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.links ul, .socials ul {
+  list-style: none;
+}
+
+.links li, .socials li {
+  margin-bottom: 0.5rem;
+}
+
+.links a, .socials a {
+  color: var(--text-muted);
+}
+
+.links a:hover, .socials a:hover {
+  color: var(--accent);
+}
+
+.copyright {
+  text-align: center;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}

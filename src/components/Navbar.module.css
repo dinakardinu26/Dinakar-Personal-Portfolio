@@ -1,0 +1,67 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLinks a {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.navLinks a:hover {
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contactBtn {
+  padding: 0.5rem 1rem;
+  background-color: var(--accent);
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.contactBtn:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+}

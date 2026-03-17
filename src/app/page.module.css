@@ -1,0 +1,138 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+  .heroContainer {
+    padding: 0 1.5rem;
+  }
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 2;
+  align-items: center;
+  width: 100%;
+}
+
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 118, 255, 0.1);
+  color: var(--accent);
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.headline {
+  font-size: 3rem;
+  color: var(--foreground);
+}
+
+.headline span {
+  color: var(--accent);
+}
+
+.subheadline {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  line-height: 1.8;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.primaryBtn, .secondaryBtn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.primaryBtn {
+  background-color: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+}
+
+.primaryBtn:hover {
+  background-color: transparent;
+  color: var(--accent);
+}
+
+.secondaryBtn {
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border-color);
+}
+
+.secondaryBtn:hover {
+  border-color: var(--foreground);
+}
+
+.heroGraphic {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.abstractShape {
+  width: 80%;
+  height: 80%;
+  background: linear-gradient(135deg, var(--accent) 0%, rgba(0, 240, 255, 0.2) 100%);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation: morph 8s ease-in-out infinite alternate;
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+  50% {
+    border-radius: 50% 50% 30% 70% / 50% 50% 50% 50%;
+  }
+  100% {
+    border-radius: 70% 30% 50% 50% / 70% 70% 30% 30%;
+  }
+}
+
+.section {
+  padding: 6rem 0;
+}

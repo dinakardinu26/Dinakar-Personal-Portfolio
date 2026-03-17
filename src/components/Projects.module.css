@@ -1,0 +1,159 @@
+.projectsSection {
+  padding: 6rem 0;
+  background-color: var(--card-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.particleBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.contentContainer {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.heading {
+  font-size: 2.5rem;
+  color: var(--foreground);
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.heading::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 50px;
+  height: 4px;
+  background-color: var(--accent);
+  border-radius: 2px;
+}
+
+.subheading {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.cardContent {
+  padding: 2.5rem;
+  flex-grow: 1;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.cardDesc {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.tagsGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.tag {
+  background-color: rgba(0, 118, 255, 0.08);
+  color: var(--accent);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.metricsGroup h4 {
+  font-size: 1rem;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.metricsGroup ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.metricsGroup li {
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.metricsGroup li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.cardFooter {
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+}
+
+.caseStudyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent);
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+}
+
+.caseStudyBtn:hover {
+  opacity: 0.8;
+}
