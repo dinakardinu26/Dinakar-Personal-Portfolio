@@ -1,5 +1,6 @@
 import styles from "./TechnicalSkills.module.css";
 import { Database, TrendingUp, PieChart, Layers, Settings, MonitorPlay } from "lucide-react";
+import { FadeIn, FadeInStaggerItem } from "./animations/FadeIn";
 
 export default function TechnicalSkills() {
   const categories = [
@@ -33,26 +34,28 @@ export default function TechnicalSkills() {
   return (
     <section id="skills" className={styles.skillsSection}>
       <div className="container">
-        <div className={styles.header}>
+        <FadeIn direction="up" className={styles.header}>
           <h2 className={styles.heading}>Technical Arsenal</h2>
           <p className={styles.subheading}>Comprehensive toolset for extracting insights, building dashboards, and automating workflows.</p>
-        </div>
+        </FadeIn>
 
-        <div className={styles.skillsGrid}>
+        <FadeIn staggerChildren={0.15} delay={0.2} className={styles.skillsGrid}>
           {categories.map((cat, idx) => (
-            <div key={idx} className={styles.skillCategory}>
-              <div className={styles.catHeader}>
-                {cat.icon}
-                <h3>{cat.name}</h3>
+            <FadeInStaggerItem key={idx} direction="up">
+              <div className={styles.skillCategory}>
+                <div className={styles.catHeader}>
+                  {cat.icon}
+                  <h3>{cat.name}</h3>
+                </div>
+                <ul className={styles.skillList}>
+                  {cat.skills.map((skill, i) => (
+                    <li key={i} className={styles.skillItem}>{skill}</li>
+                  ))}
+                </ul>
               </div>
-              <ul className={styles.skillList}>
-                {cat.skills.map((skill, i) => (
-                  <li key={i} className={styles.skillItem}>{skill}</li>
-                ))}
-              </ul>
-            </div>
+            </FadeInStaggerItem>
           ))}
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

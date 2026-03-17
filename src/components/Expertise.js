@@ -1,5 +1,6 @@
 import styles from "./Expertise.module.css";
 import { LineChart, LayoutDashboard, Target, Users, Search, ShoppingBag, Bot } from "lucide-react";
+import { FadeIn, FadeInStaggerItem } from "./animations/FadeIn";
 
 export default function Expertise() {
   const expertiseItems = [
@@ -43,20 +44,22 @@ export default function Expertise() {
   return (
     <section id="expertise" className={styles.expertiseSection}>
       <div className="container">
-        <div className={styles.header}>
+        <FadeIn direction="up" className={styles.header}>
           <h2 className={styles.heading}>Core Expertise</h2>
           <p className={styles.subheading}>Specialized domains driving organizational efficiency and business scalability.</p>
-        </div>
+        </FadeIn>
         
-        <div className={styles.grid}>
+        <FadeIn staggerChildren={0.1} delay={0.2} className={styles.grid}>
           {expertiseItems.map((item, index) => (
-            <div key={index} className={styles.card}>
-              <div className={styles.iconWrapper}>{item.icon}</div>
-              <h3 className={styles.cardTitle}>{item.title}</h3>
-              <p className={styles.cardDesc}>{item.description}</p>
-            </div>
+            <FadeInStaggerItem key={index} direction="up">
+              <div className={styles.card}>
+                <div className={styles.iconWrapper}>{item.icon}</div>
+                <h3 className={styles.cardTitle}>{item.title}</h3>
+                <p className={styles.cardDesc}>{item.description}</p>
+              </div>
+            </FadeInStaggerItem>
           ))}
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import styles from "./Experience.module.css";
 import { Briefcase } from "lucide-react";
+import { FadeIn, FadeInStaggerItem } from "./animations/FadeIn";
 
 export default function Experience() {
   const experiences = [
@@ -42,30 +43,32 @@ export default function Experience() {
   return (
     <section id="experience" className={styles.experienceSection}>
       <div className="container">
-        <div className={styles.header}>
+        <FadeIn direction="up" className={styles.header}>
           <h2 className={styles.heading}>Professional Experience</h2>
           <p className={styles.subheading}>A track record of driving operational efficiency and organizational scalability.</p>
-        </div>
+        </FadeIn>
 
-        <div className={styles.timeline}>
+        <FadeIn staggerChildren={0.3} delay={0.2} className={styles.timeline}>
           {experiences.map((exp, idx) => (
-            <div key={idx} className={styles.timelineItem}>
-              <div className={styles.timelineIcon}>
-                <Briefcase size={20} />
+            <FadeInStaggerItem key={idx} direction={idx % 2 === 0 ? "right" : "left"}>
+              <div className={styles.timelineItem}>
+                <div className={styles.timelineIcon}>
+                  <Briefcase size={20} />
+                </div>
+                <div className={styles.timelineContent}>
+                  <span className={styles.period}>{exp.period}</span>
+                  <h3 className={styles.role}>{exp.role}</h3>
+                  <h4 className={styles.company}>{exp.company}</h4>
+                  <ul className={styles.responsibilities}>
+                    {exp.responsibilities.map((resp, i) => (
+                      <li key={i}>{resp}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className={styles.timelineContent}>
-                <span className={styles.period}>{exp.period}</span>
-                <h3 className={styles.role}>{exp.role}</h3>
-                <h4 className={styles.company}>{exp.company}</h4>
-                <ul className={styles.responsibilities}>
-                  {exp.responsibilities.map((resp, i) => (
-                    <li key={i}>{resp}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            </FadeInStaggerItem>
           ))}
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

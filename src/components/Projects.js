@@ -1,5 +1,6 @@
 import styles from "./Projects.module.css";
 import { ArrowUpRight } from "lucide-react";
+import { FadeIn, FadeInStaggerItem } from "./animations/FadeIn";
 
 export default function Projects() {
   const projects = [
@@ -22,39 +23,41 @@ export default function Projects() {
   return (
     <section id="projects" className={styles.projectsSection}>
       <div className="container">
-        <div className={styles.header}>
+        <FadeIn direction="up" className={styles.header}>
           <h2 className={styles.heading}>Featured Projects</h2>
           <p className={styles.subheading}>Showcasing high-impact consulting engagements and data-driven solutions.</p>
-        </div>
+        </FadeIn>
 
-        <div className={styles.grid}>
+        <FadeIn staggerChildren={0.2} delay={0.2} className={styles.grid}>
           {projects.map((project, idx) => (
-            <div key={idx} className={styles.card}>
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{project.title}</h3>
-                <p className={styles.cardDesc}>{project.description}</p>
-                <div className={styles.tagsGroup}>
-                  {project.tags.map((tag, i) => (
-                    <span key={i} className={styles.tag}>{tag}</span>
-                  ))}
-                </div>
-                <div className={styles.metricsGroup}>
-                  <h4>Key Outcomes:</h4>
-                  <ul>
-                    {project.metrics.map((metric, i) => (
-                      <li key={i}>{metric}</li>
+            <FadeInStaggerItem key={idx} direction="up">
+              <div className={styles.card}>
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>{project.title}</h3>
+                  <p className={styles.cardDesc}>{project.description}</p>
+                  <div className={styles.tagsGroup}>
+                    {project.tags.map((tag, i) => (
+                      <span key={i} className={styles.tag}>{tag}</span>
                     ))}
-                  </ul>
+                  </div>
+                  <div className={styles.metricsGroup}>
+                    <h4>Key Outcomes:</h4>
+                    <ul>
+                      {project.metrics.map((metric, i) => (
+                        <li key={i}>{metric}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className={styles.cardFooter}>
+                  <a href={project.link} className={styles.caseStudyBtn}>
+                    View Case Study <ArrowUpRight size={18} />
+                  </a>
                 </div>
               </div>
-              <div className={styles.cardFooter}>
-                <a href={project.link} className={styles.caseStudyBtn}>
-                  View Case Study <ArrowUpRight size={18} />
-                </a>
-              </div>
-            </div>
+            </FadeInStaggerItem>
           ))}
-        </div>
+        </FadeIn>
       </div>
     </section>
   );
