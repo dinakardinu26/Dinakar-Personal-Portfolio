@@ -18,8 +18,11 @@ export default function Home() {
   return (
     <>
       <section className={styles.hero} id="home">
+        {/* Full-hero background particle field */}
+        <ParticleGlobe />
+
         <div className={`container ${styles.heroContainer}`}>
-          <FadeIn delay={0.1} staggerChildren={0.2} className={styles.heroContent}>
+          <FadeIn delay={0.2} staggerChildren={0.2} className={styles.heroContent}>
             <FadeInStaggerItem direction="up">
               <div className={styles.badge}>PMS Framework Designer</div>
             </FadeInStaggerItem>
@@ -46,9 +49,6 @@ export default function Home() {
                 </a>
               </div>
             </FadeInStaggerItem>
-          </FadeIn>
-          <FadeIn direction="left" delay={0.6} className={styles.heroGraphic}>
-            <ParticleGlobe />
           </FadeIn>
         </div>
       </section>

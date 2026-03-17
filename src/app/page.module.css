@@ -1,23 +1,26 @@
 .hero {
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 4rem 0;
   position: relative;
   overflow: hidden;
 }
 
 .heroContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 @media (max-width: 992px) {
   .heroContainer {
-    grid-template-columns: 1fr;
-    text-align: center;
+    padding: 0 1.5rem;
   }
 }
 
@@ -26,13 +29,10 @@
   flex-direction: column;
   gap: 1.5rem;
   z-index: 2;
+  align-items: center;
+  width: 100%;
 }
 
-@media (max-width: 992px) {
-  .heroContent {
-    align-items: center;
-  }
-}
 
 .badge {
   display: inline-block;
@@ -56,16 +56,18 @@
 }
 
 .subheadline {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 700px;
   line-height: 1.8;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.3);
 }
 
 .ctaGroup {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  justify-content: center;
 }
 
 .primaryBtn, .secondaryBtn {
