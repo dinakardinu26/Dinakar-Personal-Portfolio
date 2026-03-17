@@ -12,6 +12,7 @@ export default function About() {
               src="/dinakar-photo.jpg" 
               alt="Dinakar S - Data Analyst & Consultant" 
               fill 
+              sizes="(max-width: 768px) 100vw, 50vw"
               style={{ objectFit: 'cover', borderRadius: '12px' }} 
               priority
             />

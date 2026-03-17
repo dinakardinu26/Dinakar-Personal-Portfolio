@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export const FadeIn = ({ children, delay = 0, direction = "up", duration = 0.5, staggerChildren = 0 }) => {
+export const FadeIn = ({ children, delay = 0, direction = "up", duration = 0.5, staggerChildren = 0, className = "" }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -35,11 +35,12 @@ export const FadeIn = ({ children, delay = 0, direction = "up", duration = 0.5, 
 
   if (!mounted) {
     // Avoid hydration mismatch by rendering static content on server
-    return <div style={{ opacity: 0 }}>{children}</div>;
+    return <div className={className} style={{ opacity: 0 }}>{children}</div>;
   }
 
   return (
     <motion.div
+      className={className}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-100px" }}
@@ -50,7 +51,7 @@ export const FadeIn = ({ children, delay = 0, direction = "up", duration = 0.5, 
   );
 };
 
-export const FadeInStaggerItem = ({ children, direction = "up", duration = 0.5 }) => {
+export const FadeInStaggerItem = ({ children, direction = "up", duration = 0.5, className = "" }) => {
   const directions = {
     up: { y: 20, opacity: 0 },
     down: { y: -20, opacity: 0 },
@@ -69,5 +70,5 @@ export const FadeInStaggerItem = ({ children, direction = "up", duration = 0.5 }
     }
   };
 
-  return <motion.div variants={itemVariants}>{children}</motion.div>;
+  return <motion.div className={className} variants={itemVariants}>{children}</motion.div>;
 };

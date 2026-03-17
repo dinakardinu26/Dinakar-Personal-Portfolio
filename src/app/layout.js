@@ -22,7 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${openSans.variable}`}>
+      <body className={`${inter.variable} ${openSans.variable}`} suppressHydrationWarning>
         <ThemeProvider>
           <Navbar />
           {children}
