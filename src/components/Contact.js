@@ -2,7 +2,7 @@
 
 import styles from "./Contact.module.css";
 import { useState } from "react";
-import { Mail, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, MessageCircle, Linkedin, Instagram } from "lucide-react";
 
 export default function Contact() {
   const [status, setStatus] = useState(null);
@@ -52,6 +52,27 @@ export default function Contact() {
                 <div>
                   <h4>Location</h4>
                   <p>Kochi, Kerala, India</p>
+                </div>
+              </div>
+              <div className={styles.infoItem}>
+                <div className={styles.iconWrapper}><MessageCircle size={24} /></div>
+                <div>
+                  <h4>WhatsApp</h4>
+                  <a href="https://wa.me/918157009289" target="_blank" rel="noopener noreferrer">+91 81570 09289</a>
+                </div>
+              </div>
+              <div className={styles.infoItem}>
+                <div className={styles.iconWrapper}><Linkedin size={24} /></div>
+                <div>
+                  <h4>LinkedIn</h4>
+                  <a href="https://www.linkedin.com/in/dinakar26/" target="_blank" rel="noopener noreferrer">linkedin.com/in/dinakar26</a>
+                </div>
+              </div>
+              <div className={styles.infoItem}>
+                <div className={styles.iconWrapper}><Instagram size={24} /></div>
+                <div>
+                  <h4>Instagram</h4>
+                  <a href="https://www.instagram.com/iam.dinakar?igsh=OG9tc2lieGg0OHBo&utm_source=qr" target="_blank" rel="noopener noreferrer">@iam.dinakar</a>
                 </div>
               </div>
             </div>

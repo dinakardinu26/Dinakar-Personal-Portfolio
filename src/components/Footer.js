@@ -21,7 +21,9 @@ export default function Footer() {
         <div className={styles.socials}>
           <h3>Connect</h3>
           <ul>
-            <li><a href="https://linkedin.com/in/dinakar26" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://www.linkedin.com/in/dinakar26/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/iam.dinakar?igsh=OG9tc2lieGg0OHBo&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://wa.me/918157009289" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
             <li><a href="mailto:dinakars007@gmail.com">Email</a></li>
           </ul>
         </div>
