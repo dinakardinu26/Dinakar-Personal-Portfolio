@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./About.module.css";
 
 export default function About() {
@@ -6,12 +7,17 @@ export default function About() {
       <div className={`container ${styles.aboutContainer}`}>
         <div className={styles.imageWrapper}>
           <div className={styles.imagePlaceholder}>
-            {/* Using a placeholder since we don't have Dinakar's actual photo */}
-            <span>Dinakar S.</span>
+            <Image 
+              src="/dinakar-photo.jpg" 
+              alt="Dinakar S - Data Analyst & Consultant" 
+              fill 
+              style={{ objectFit: 'cover', borderRadius: '12px' }} 
+              priority
+            />
           </div>
           <div className={styles.experienceBadge}>
-            <span className={styles.years}>5+</span>
-            <span className={styles.text}>Years Analytics Experience</span>
+            <span className={styles.years}>1+</span>
+            <span className={styles.text}>Year Analytics Experience</span>
           </div>
         </div>
         <div className={styles.contentWrapper}>
