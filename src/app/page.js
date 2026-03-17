@@ -29,7 +29,7 @@ export default function Home() {
               <Link href="#projects" className={styles.primaryBtn}>
                 View My Work <ArrowRight size={18} />
               </Link>
-              <a href="/resume.pdf" download className={styles.secondaryBtn}>
+              <a href="/Dinakar_S_Resume.pdf" download className={styles.secondaryBtn}>
                 <Download size={18} /> Download Resume
               </a>
             </div>
