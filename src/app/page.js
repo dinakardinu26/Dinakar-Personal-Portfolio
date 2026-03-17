@@ -12,6 +12,7 @@ import BlogInsights from "@/components/BlogInsights";
 import Contact from "@/components/Contact";
 import AnimatedStats from "@/components/AnimatedStats";
 import { FadeIn, FadeInStaggerItem } from "@/components/animations/FadeIn";
+import ParticleGlobe from "@/components/animations/ParticleGlobe";
 
 export default function Home() {
   return (
@@ -47,8 +48,7 @@ export default function Home() {
             </FadeInStaggerItem>
           </FadeIn>
           <FadeIn direction="left" delay={0.6} className={styles.heroGraphic}>
-            {/* We will add an animated graphic or abstract shape here */}
-            <div className={styles.abstractShape}></div>
+            <ParticleGlobe />
           </FadeIn>
         </div>
       </section>
