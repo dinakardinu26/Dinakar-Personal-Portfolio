@@ -13,18 +13,16 @@
   --font-body: var(--font-open-sans), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a1128;   /* Dark blue background */
-    --foreground: #ffffff;
-    
-    --primary: #ffffff;
-    --secondary: #1e293b;    /* Dark soft grey */
-    --accent: #00f0ff;       /* Neon Blue */
-    --text-muted: #94a3b8;
-    --card-bg: #111e3b;      /* Slightly lighter dark blue for cards */
-    --border-color: #1e293b;
-  }
+[data-theme="dark"] {
+  --background: #0a1128;   /* Dark blue background */
+  --foreground: #ffffff;
+  
+  --primary: #ffffff;
+  --secondary: #1e293b;    /* Dark soft grey */
+  --accent: #00f0ff;       /* Neon Blue */
+  --text-muted: #94a3b8;
+  --card-bg: #111e3b;      /* Slightly lighter dark blue for cards */
+  --border-color: #1e293b;
 }
 
 html,
@@ -41,6 +39,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -72,9 +71,10 @@ button {
   padding: 0 5%;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+html {
+  color-scheme: light;
 }
 
+[data-theme="dark"] {
+  color-scheme: dark;
+}
