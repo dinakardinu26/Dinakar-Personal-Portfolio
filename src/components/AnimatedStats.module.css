@@ -1,6 +1,6 @@
 .statsSection {
-  background-color: var(--primary);
-  color: #fff;
+  background-color: var(--card-bg);
+  color: var(--foreground);
   padding: 4rem 0;
   margin: 2rem 0;
 }
@@ -42,7 +42,7 @@
 .label {
   font-size: 1.1rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
