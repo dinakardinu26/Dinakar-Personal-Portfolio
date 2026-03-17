@@ -1,95 +1,186 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import { useRef, useEffect, useCallback } from "react";
 
-// Individual color-group of particles
-const ColoredParticles = ({ count, color, spread = 14, yRange = 6, speedMultiplier = 1 }) => {
-  const points = useRef(null);
+const COLORS = [
+  "#00e5ff", // bright cyan
+  "#7c3aed", // vivid purple
+  "#f97316", // vibrant orange
+  "#ec4899", // hot pink
+  "#22c55e", // bright green
+  "#eab308", // golden yellow
+  "#3b82f6", // electric blue
+  "#f43f5e", // rose red
+];
 
-  const { positions, velocities } = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const vel = new Float32Array(count * 3);
+class Particle {
+  constructor(canvasW, canvasH) {
+    this.reset(canvasW, canvasH);
+  }
 
-    for (let i = 0; i < count; i++) {
-      pos[i * 3]     = (Math.random() - 0.5) * spread;        // x
-      pos[i * 3 + 1] = (Math.random() - 0.5) * yRange;        // y
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 8;             // z
+  reset(canvasW, canvasH) {
+    // Resting position – scattered across entire canvas with some depth zones
+    this.originX = Math.random() * canvasW;
+    this.originY = Math.random() * canvasH;
+    this.x = this.originX;
+    this.y = this.originY;
 
-      vel[i * 3]     = (Math.random() - 0.5) * 0.004 * speedMultiplier;  // vx
-      vel[i * 3 + 1] = (Math.random() * 0.005 + 0.001) * speedMultiplier; // vy upward drift
-      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.003 * speedMultiplier;  // vz
+    this.vx = 0;
+    this.vy = 0;
+
+    // Each particle has a random base size
+    this.baseSize = Math.random() * 3.5 + 1.5;
+    this.size = this.baseSize;
+
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.alpha = Math.random() * 0.5 + 0.4;
+
+    // Spring & friction constants
+    this.ease = 0.07 + Math.random() * 0.04;   // return speed
+    this.friction = 0.88 + Math.random() * 0.06; // velocity damping
+    this.density = Math.random() * 25 + 5;       // repulsion mass
+  }
+
+  update(mouse) {
+    const dx = mouse.x - this.x;
+    const dy = mouse.y - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const repelRadius = mouse.radius;
+
+    if (mouse.x !== null && dist < repelRadius) {
+      // Push particle away from cursor with force proportional to proximity
+      const force = (repelRadius - dist) / repelRadius;
+      const angle = Math.atan2(dy, dx);
+      const pushX = Math.cos(angle) * force * this.density * 0.6;
+      const pushY = Math.sin(angle) * force * this.density * 0.6;
+
+      this.vx -= pushX;
+      this.vy -= pushY;
+
+      // Slightly enlarge particles near cursor
+      this.size = this.baseSize + force * 2;
+    } else {
+      this.size = this.baseSize;
     }
 
-    return { positions: pos, velocities: vel };
-  }, [count, spread, yRange, speedMultiplier]);
+    // Spring force pulling particle back to origin
+    this.vx += (this.originX - this.x) * this.ease;
+    this.vy += (this.originY - this.y) * this.ease;
 
-  useFrame(() => {
-    if (!points.current) return;
-    const pos = points.current.geometry.attributes.position.array;
+    // Apply friction
+    this.vx *= this.friction;
+    this.vy *= this.friction;
 
-    for (let i = 0; i < count; i++) {
-      pos[i * 3]     += velocities[i * 3];
-      pos[i * 3 + 1] += velocities[i * 3 + 1];
-      pos[i * 3 + 2] += velocities[i * 3 + 2];
+    // Integrate position
+    this.x += this.vx;
+    this.y += this.vy;
+  }
 
-      // Wrap particles when they drift off screen
-      if (pos[i * 3 + 1] > yRange / 2) {
-        pos[i * 3 + 1] = -yRange / 2;
-        pos[i * 3]     = (Math.random() - 0.5) * spread;
-        pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
-      }
-      if (Math.abs(pos[i * 3]) > spread / 2) {
-        pos[i * 3] = -Math.sign(pos[i * 3]) * (spread / 2 - 0.5);
-      }
-    }
-
-    points.current.geometry.attributes.position.needsUpdate = true;
-  });
-
-  return (
-    <points ref={points}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.12}
-        color={color}
-        transparent
-        opacity={0.85}
-        blending={THREE.AdditiveBlending}
-        sizeAttenuation={true}
-        depthWrite={false}
-      />
-    </points>
-  );
-};
-
-// A slow, subtle camera drift to add depth
-const CameraDrift = () => {
-  const targetX = useRef(0);
-  const targetY = useRef(0);
-
-  useFrame(({ camera, mouse }) => {
-    targetX.current = mouse.x * 0.4;
-    targetY.current = mouse.y * 0.2;
-    camera.position.x += (targetX.current - camera.position.x) * 0.04;
-    camera.position.y += (targetY.current - camera.position.y) * 0.04;
-    camera.lookAt(0, 0, 0);
-  });
-
-  return null;
-};
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
 
 export default function ParticleGlobe() {
+  const canvasRef = useRef(null);
+  const particlesRef = useRef([]);
+  const animRef = useRef(null);
+  const mouseRef = useRef({ x: null, y: null, radius: 130 });
+
+  const PARTICLE_COUNT = 350;
+
+  const initParticles = useCallback((w, h) => {
+    particlesRef.current = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particlesRef.current.push(new Particle(w, h));
+    }
+  }, []);
+
+  const animate = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    // Soft fade trail effect instead of full clear for a glowing ghost trail
+    ctx.fillStyle = "rgba(0, 0, 0, 0)";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw subtle connecting lines between nearby particles
+    const particles = particlesRef.current;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 70) {
+          ctx.save();
+          ctx.globalAlpha = (1 - dist / 70) * 0.12;
+          ctx.strokeStyle = particles[i].color;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+
+    for (const p of particles) {
+      p.update(mouseRef.current);
+      p.draw(ctx);
+    }
+
+    animRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      initParticles(canvas.width, canvas.height);
+    };
+
+    resize();
+    animate();
+
+    const handleResize = () => resize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, [animate, initParticles]);
+
+  // Mouse move on parent (the hero section, not the canvas)
+  const handleMouseMove = useCallback((e) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    mouseRef.current.x = e.clientX - rect.left;
+    mouseRef.current.y = e.clientY - rect.top;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    mouseRef.current.x = null;
+    mouseRef.current.y = null;
+  }, []);
+
   return (
-    <div
+    <canvas
+      ref={canvasRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         position: "absolute",
         top: 0,
@@ -97,23 +188,9 @@ export default function ParticleGlobe() {
         width: "100%",
         height: "100%",
         zIndex: 0,
-        pointerEvents: "none",
+        pointerEvents: "all",
+        display: "block",
       }}
-    >
-      <Canvas
-        camera={{ position: [0, 0, 9], fov: 70 }}
-        gl={{ antialias: false, alpha: true }}
-        style={{ background: "transparent" }}
-      >
-        {/* Multicolor particle groups — Antigravity-style */}
-        <ColoredParticles count={500} color="#00cfff" spread={18} yRange={8} speedMultiplier={0.8} />  {/* Cyan     */}
-        <ColoredParticles count={400} color="#a855f7" spread={18} yRange={8} speedMultiplier={1.0} />  {/* Purple   */}
-        <ColoredParticles count={350} color="#fb923c" spread={18} yRange={8} speedMultiplier={1.2} />  {/* Orange   */}
-        <ColoredParticles count={300} color="#f472b6" spread={18} yRange={8} speedMultiplier={0.9} />  {/* Pink     */}
-        <ColoredParticles count={350} color="#4ade80" spread={18} yRange={8} speedMultiplier={1.1} />  {/* Green    */}
-        <ColoredParticles count={400} color="#facc15" spread={18} yRange={8} speedMultiplier={0.7} />  {/* Yellow   */}
-        <CameraDrift />
-      </Canvas>
-    </div>
+    />
   );
 }
