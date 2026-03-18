@@ -1,194 +1,154 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
-
-const COLORS = [
-  "#00e5ff", // bright cyan
-  "#7c3aed", // vivid purple
-  "#f97316", // vibrant orange
-  "#ec4899", // hot pink
-  "#22c55e", // bright green
-  "#eab308", // golden yellow
-  "#3b82f6", // electric blue
-  "#f43f5e", // rose red
-];
-
-class Particle {
-  constructor(canvasW, canvasH) {
-    this.reset(canvasW, canvasH);
-  }
-
-  reset(canvasW, canvasH) {
-    // Resting position – scattered across entire canvas with some depth zones
-    this.originX = Math.random() * canvasW;
-    this.originY = Math.random() * canvasH;
-    this.x = this.originX;
-    this.y = this.originY;
-
-    this.vx = 0;
-    this.vy = 0;
-
-    // Each particle has a random base size
-    this.baseSize = Math.random() * 3.5 + 1.5;
-    this.size = this.baseSize;
-
-    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    this.alpha = Math.random() * 0.5 + 0.4;
-
-    // Spring & friction constants
-    this.ease = 0.07 + Math.random() * 0.04;   // return speed
-    this.friction = 0.88 + Math.random() * 0.06; // velocity damping
-    this.density = Math.random() * 25 + 5;       // repulsion mass
-  }
-
-  update(mouse) {
-    const dx = mouse.x - this.x;
-    const dy = mouse.y - this.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const repelRadius = mouse.radius;
-
-    if (mouse.x !== null && dist < repelRadius) {
-      // Push particle away from cursor with force proportional to proximity
-      const force = (repelRadius - dist) / repelRadius;
-      const angle = Math.atan2(dy, dx);
-      const pushX = Math.cos(angle) * force * this.density * 0.6;
-      const pushY = Math.sin(angle) * force * this.density * 0.6;
-
-      this.vx -= pushX;
-      this.vy -= pushY;
-
-      // Slightly enlarge particles near cursor
-      this.size = this.baseSize + force * 2;
-    } else {
-      this.size = this.baseSize;
-    }
-
-    // Spring force pulling particle back to origin
-    this.vx += (this.originX - this.x) * this.ease;
-    this.vy += (this.originY - this.y) * this.ease;
-
-    // Apply friction
-    this.vx *= this.friction;
-    this.vy *= this.friction;
-
-    // Integrate position
-    this.x += this.vx;
-    this.y += this.vy;
-  }
-
-  draw(ctx) {
-    ctx.save();
-    ctx.globalAlpha = this.alpha;
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
+import { useRef, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 export default function ParticleGlobe() {
   const canvasRef = useRef(null);
-  const particlesRef = useRef([]);
-  const animRef = useRef(null);
-  const mouseRef = useRef({ x: null, y: null, radius: 130 });
-
-  const PARTICLE_COUNT = 350;
-
-  const initParticles = useCallback((w, h) => {
-    particlesRef.current = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particlesRef.current.push(new Particle(w, h));
-    }
-  }, []);
-
-  const animate = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    // Soft fade trail effect instead of full clear for a glowing ghost trail
-    ctx.fillStyle = "rgba(0, 0, 0, 0)";
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw subtle connecting lines between nearby particles
-    const particles = particlesRef.current;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 70) {
-          ctx.save();
-          ctx.globalAlpha = (1 - dist / 70) * 0.12;
-          ctx.strokeStyle = particles[i].color;
-          ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-          ctx.restore();
-        }
-      }
-    }
-
-    for (const p of particles) {
-      p.update(mouseRef.current);
-      p.draw(ctx);
-    }
-
-    animRef.current = requestAnimationFrame(animate);
-  }, []);
+  const { theme } = useTheme();
 
   useEffect(() => {
+    // Only run on client and if canvas exists
+    if (!canvasRef.current) return;
+    
+    // Disable on mobile to save performance/battery, just like the preview
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    let w, h;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      initParticles(canvas.width, canvas.height);
+      // The canvas fills its relative parent
+      w = canvas.offsetWidth;
+      h = canvas.offsetHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
     };
 
     resize();
-    animate();
+    window.addEventListener('resize', resize);
 
-    const handleResize = () => resize();
-    window.addEventListener("resize", handleResize);
+    // Orbital configuration
+    const COLORS = ['#6c63ff', '#00d4ff', '#ffffff', '#b8b0ff'];
+    const TRAIL = 12;
+    const N = 90;
+
+    let cx = w / 2;
+    let cy = h / 2;
+    let tx = w / 2;
+    let ty = h / 2;
+
+    const onMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      tx = e.clientX - rect.left;
+      ty = e.clientY - rect.top;
+    };
+    
+    // Attach mouse listener to window to catch movements anywhere
+    window.addEventListener('mousemove', onMouseMove);
+
+    const rings = [
+      { rxF: 0.38, ryF: 0.22, a: 0, speed: 0.0005,  color: 'rgba(108,99,255,0.12)', lw: 1 },
+      { rxF: 0.28, ryF: 0.30, a: 0, speed: -0.0003, color: 'rgba(0,212,255,0.07)',  lw: 0.6 },
+      { rxF: 0.48, ryF: 0.14, a: 0, speed: -0.0007, color: 'rgba(255,255,255,0.04)',lw: 0.3 },
+    ];
+
+    const particles = Array.from({ length: N }, () => ({
+      radius: 80 + Math.random() * 180,
+      angle: Math.random() * Math.PI * 2,
+      speed: (0.002 + Math.random() * 0.006) * (Math.random() < 0.5 ? 1 : -1),
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      size: 1 + Math.random() * 1.8,
+      trail: [],
+    }));
+
+    let animationFrameId;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+
+      // LERP center toward mouse target
+      cx += (tx - cx) * 0.04;
+      cy += (ty - cy) * 0.04;
+
+      // Draw faint elliptical rings
+      rings.forEach(r => {
+        r.a += r.speed;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(r.a);
+        ctx.strokeStyle = r.color;
+        ctx.lineWidth = r.lw;
+        ctx.beginPath();
+        // Fallback for older browsers if ellipse is not supported, though modern ones do
+        if (ctx.ellipse) {
+          ctx.ellipse(0, 0, w * r.rxF, h * r.ryF, 0, 0, Math.PI * 2);
+        }
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // Draw particles and trails
+      particles.forEach(p => {
+        p.angle += p.speed;
+        const x = cx + Math.cos(p.angle) * p.radius;
+        const y = cy + Math.sin(p.angle) * p.radius * 0.52; // flattened y to match 3D perspective
+        p.trail.push({ x, y });
+        if (p.trail.length > TRAIL) p.trail.shift();
+
+        // Draw trail dots
+        p.trail.forEach((pt, i) => {
+          const alpha = (i / TRAIL) * 0.55;
+          const r = Math.max(0.3, p.size * (i / TRAIL) * 0.9);
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.shadowBlur = 14;
+          ctx.shadowColor = p.color;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        // Draw main head particle
+        ctx.save();
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = p.color;
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      if (animRef.current) cancelAnimationFrame(animRef.current);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [animate, initParticles]);
-
-  // Mouse move on parent (the hero section, not the canvas)
-  const handleMouseMove = useCallback((e) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    mouseRef.current.x = e.clientX - rect.left;
-    mouseRef.current.y = e.clientY - rect.top;
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    mouseRef.current.x = null;
-    mouseRef.current.y = null;
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       style={{
         position: "absolute",
         top: 0,
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: 0,
-        pointerEvents: "all",
+        zIndex: 0,  // Stays behind text
+        pointerEvents: "none", // Let clicks pass through to text/buttons
         display: "block",
       }}
     />
