@@ -55,8 +55,8 @@ const AnimatedCounter = ({ end, duration, suffix = "" }) => {
 export default function AnimatedStats() {
   const stats = [
     { label: "Years Experience", value: 1, suffix: "+" },
-    { label: "Projects Completed", value: 40, suffix: "+" },
-    { label: "Dashboards Built", value: 25, suffix: "+" },
+    { label: "Projects Completed", value: 5, suffix: "+" },
+    { label: "Dashboards Built", value: 10, suffix: "+" },
     { label: "Efficiency Increase", value: 30, suffix: "%" }
   ];
 
