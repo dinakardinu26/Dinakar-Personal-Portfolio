@@ -31,25 +31,25 @@ export default function About() {
           <div className={styles.description}>
             <FadeInStaggerItem>
               <p>
-                Dinakar S is a <strong>Data Analyst and Performance Consulting Specialist</strong> with expertise in performance management systems, business intelligence, and organizational analytics.
+                Dinakar S is a <strong>Project Associate in Performance Management &amp; Business Consulting</strong>, with hands-on experience in organizational performance improvement and business transformation across the manufacturing sector and related industries.
               </p>
             </FadeInStaggerItem>
             
             <FadeInStaggerItem>
               <p>
-                With a strong foundation in Computer Applications and an MBA in Marketing and Human Resource Management, he combines technical analytics skills with strategic business understanding.
+                He holds a strong academic foundation — a Bachelor&apos;s in Computer Applications and an <strong>MBA in Marketing &amp; HR from the University of Calicut</strong> — which equips him to bridge technical analytics with strategic business thinking.
               </p>
             </FadeInStaggerItem>
             
             <FadeInStaggerItem>
               <p>
-                Currently working with HSJB Global Solutions LLP, he contributes to performance consulting engagements involving organizational restructuring, KPI design, PMS framework development, and MIS dashboard creation. His work focuses on helping businesses improve operational efficiency, scalability, and data-driven decision making.
+                Across multiple consulting engagements, Dinakar has contributed to <strong>organizational restructuring, KPI architecture, and Performance Management System (PMS) design</strong> for manufacturing and operations-driven organizations. His work spans process optimization, MIS &amp; executive dashboard development, and business analytics — helping leadership teams make faster, data-informed decisions.
               </p>
             </FadeInStaggerItem>
             
             <FadeInStaggerItem>
               <p>
-                Dinakar specializes in transforming complex organizational data into actionable insights that guide leadership decisions and enable sustainable growth.
+                He brings a structured, consulting-oriented approach to every engagement — translating complex operational data into actionable frameworks that drive measurable efficiency, scalability, and cross-functional alignment.
               </p>
             </FadeInStaggerItem>
           </div>
