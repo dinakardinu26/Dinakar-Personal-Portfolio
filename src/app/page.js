@@ -13,6 +13,7 @@ import Contact from "@/components/Contact";
 import AnimatedStats from "@/components/AnimatedStats";
 import { FadeIn, FadeInStaggerItem } from "@/components/animations/FadeIn";
 import ParticleGlobe from "@/components/animations/ParticleGlobe";
+import StaggeredHeadline from "@/components/animations/StaggeredHeadline";
 
 export default function Home() {
   return (
@@ -22,15 +23,16 @@ export default function Home() {
         <ParticleGlobe />
 
         <div className={`container ${styles.heroContainer}`}>
-          <FadeIn delay={0.2} staggerChildren={0.2} className={styles.heroContent}>
+          <FadeIn delay={0.2} staggerChildren={0.25} className={styles.heroContent}>
             <FadeInStaggerItem direction="up">
               <div className={styles.badge}>PMS Framework Designer</div>
             </FadeInStaggerItem>
             
-            <FadeInStaggerItem direction="up">
-              <h1 className={styles.headline}>
-                Transforming Organizational Performance Through Data, Analytics, and Performance Management Systems
-              </h1>
+            <FadeInStaggerItem direction="none">
+              <StaggeredHeadline
+                text="Transforming Organizational Performance Through Data, Analytics, and Performance Management Systems"
+                className={styles.headline}
+              />
             </FadeInStaggerItem>
             
             <FadeInStaggerItem direction="up">

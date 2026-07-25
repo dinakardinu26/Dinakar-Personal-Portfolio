@@ -1,6 +1,6 @@
 import styles from "./Projects.module.css";
 import { ArrowUpRight } from "lucide-react";
-import ParticleSphere from "./ParticleSphere";
+
 import { FadeIn, FadeInStaggerItem } from "./animations/FadeIn";
 export default function Projects() {
   const projects = [
@@ -22,9 +22,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className={styles.projectsSection}>
-      <div className={styles.particleBg}>
-        <ParticleSphere />
-      </div>
+
       <div className={`container ${styles.contentContainer}`}>
         <FadeIn direction="up" className={styles.header}>
           <h2 className={styles.heading}>Featured Projects</h2>
