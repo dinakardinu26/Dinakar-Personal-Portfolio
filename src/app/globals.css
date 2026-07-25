@@ -14,15 +14,20 @@
 }
 
 [data-theme="dark"] {
-  --background: #0a1128;   /* Dark blue background */
-  --foreground: #ffffff;
+  --background: #050510;        /* Deep near-black with a blue hue */
+  --foreground: #e8e6ff;        /* Soft white-lavender for text */
   
-  --primary: #ffffff;
-  --secondary: #1e293b;    /* Dark soft grey */
-  --accent: #00f0ff;       /* Neon Blue */
-  --text-muted: #94a3b8;
-  --card-bg: #111e3b;      /* Slightly lighter dark blue for cards */
-  --border-color: #1e293b;
+  --primary: #e8e6ff;
+  --secondary: #0c1225;         /* Very dark blue-black surface */
+  --accent: #00d4ff;            /* Vivid electric cyan */
+  --text-muted: #8892b0;        /* Cool grey-blue for secondary text */
+  --card-bg: #0a0f1e;           /* Near-black card backgrounds */
+  --border-color: rgba(0, 212, 255, 0.1); /* Faint cyan glow borders */
+
+  /* New dark mode exclusive tokens */
+  --glow-primary: rgba(0, 212, 255, 0.15);
+  --glow-accent: rgba(108, 99, 255, 0.2);
+  --gradient-surface: linear-gradient(145deg, #0a0f1e 0%, #0d1530 100%);
 }
 
 html,
@@ -77,4 +82,125 @@ html {
 
 [data-theme="dark"] {
   color-scheme: dark;
+}
+
+/* ══════════════════════════════════════════════════════════
+   DARK MODE VISUAL ENHANCEMENTS
+   Deep black + electric blue premium aesthetic
+   ══════════════════════════════════════════════════════════ */
+
+/* Frosted glass navbar */
+[data-theme="dark"] nav {
+  background: rgba(5, 5, 16, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: rgba(0, 212, 255, 0.08) !important;
+}
+
+/* Section alternating backgrounds with subtle gradient */
+[data-theme="dark"] section:nth-child(even) {
+  background: linear-gradient(145deg, #060612 0%, #0a1025 100%);
+}
+[data-theme="dark"] section:nth-child(odd) {
+  background: #050510;
+}
+
+/* Cards — faint glow border + glass surface */
+[data-theme="dark"] [class*="card"],
+[data-theme="dark"] [class*="Card"] {
+  background: linear-gradient(145deg, #0a0f1e 0%, #0d1530 100%);
+  border: 1px solid rgba(0, 212, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.04), inset 0 1px 0 rgba(255,255,255,0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+[data-theme="dark"] [class*="card"]:hover,
+[data-theme="dark"] [class*="Card"]:hover {
+  border-color: rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Primary buttons — glow on hover */
+[data-theme="dark"] [class*="primaryBtn"],
+[data-theme="dark"] [class*="primary"] button,
+[data-theme="dark"] [class*="contactBtn"] {
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+[data-theme="dark"] [class*="primaryBtn"]:hover,
+[data-theme="dark"] [class*="contactBtn"]:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.4), 0 0 60px rgba(0, 212, 255, 0.15);
+}
+
+/* Headings — subtle gradient text in dark mode */
+[data-theme="dark"] h2 {
+  background: linear-gradient(135deg, #e8e6ff 30%, #00d4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Accent underlines and decorators */
+[data-theme="dark"] [class*="heading"]::after {
+  background: linear-gradient(90deg, #00d4ff, #6c63ff) !important;
+}
+
+/* Stats section — deep surface with glow dividers */
+[data-theme="dark"] [class*="statsSection"] {
+  background: linear-gradient(145deg, #060612 0%, #0a1025 50%, #060612 100%);
+  border-top: 1px solid rgba(0, 212, 255, 0.06);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.06);
+}
+
+/* Tags — glowing pill style */
+[data-theme="dark"] [class*="tag"] {
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  color: #00d4ff;
+}
+
+/* Form inputs — glowing focus ring */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea {
+  background: #0a0f1e;
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  color: #e8e6ff;
+}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+  outline: none;
+}
+
+/* Footer — deep black with top glow line */
+[data-theme="dark"] footer {
+  background: #030308;
+  border-top: 1px solid rgba(0, 212, 255, 0.06);
+}
+
+/* Scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar { width: 6px; }
+[data-theme="dark"] ::-webkit-scrollbar-track { background: #050510; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00d4ff, #6c63ff);
+  border-radius: 3px;
+}
+
+/* Badge pills */
+[data-theme="dark"] [class*="badge"] {
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  color: #00d4ff;
+}
+
+/* Experience badge (about page) */
+[data-theme="dark"] [class*="experienceBadge"] {
+  background: linear-gradient(135deg, #00d4ff, #6c63ff);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+}
+
+/* Timeline icons */
+[data-theme="dark"] [class*="timelineIcon"] {
+  background: linear-gradient(135deg, #00d4ff, #6c63ff);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 }
